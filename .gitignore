@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+.venv/
+.paper-workflow/
+research-paper/
+output/
+tmp/
+*.pdf
+*.docx
+*.xlsx

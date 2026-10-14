@@ -1,0 +1,4 @@
+interface:
+  display_name: "SCI 论文五步工作流"
+  short_description: "自动衔接定问题、论文框架、分节写作、证据核验和选刊，保存进度与版本"
+  default_prompt: "使用 $sci-paper-workflow，读取我提供的研究材料，判断当前阶段并按五步流程继续，自动调用对应 Skill 和提示词。"
