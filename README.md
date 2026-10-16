@@ -14,10 +14,10 @@
 
 ## 安装到 Hermes
 
-需要 Python 3.10+。先将仓库克隆到固定位置。私有仓库需要相应 GitHub 访问权：
+需要 Python 3.10+。先将公开仓库克隆到固定位置：
 
 ```bash
-gh repo clone skylarzhao123/sci-paper-workflow
+git clone https://github.com/skylarzhao123/sci-paper-workflow.git
 cd sci-paper-workflow
 python3 scripts/install_local.py --target hermes
 ```
