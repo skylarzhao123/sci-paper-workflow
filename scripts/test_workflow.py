@@ -136,9 +136,12 @@ class WorkflowTests(unittest.TestCase):
 
     def test_profile_root_and_explicit_runtime(self):
         with patch.dict(w.os.environ, {"HERMES_HOME": str(self.root / "profile"),
-                                      "CODEX_HOME": str(self.root / "codex")}):
-            self.assertEqual(self.root / "profile/skills", w.default_skills_root())
+                                      "CODEX_HOME": str(self.root / "codex"),
+                                      "ZCODE_DATA_BASE_DIR": str(self.root / "zcode")}):
+            self.assertEqual(self.root / "zcode/skills", w.default_skills_root())
             self.assertEqual(self.root / "codex/skills", w.default_skills_root("codex"))
+            self.assertEqual(self.root / "profile/skills", w.default_skills_root("hermes"))
+            self.assertEqual(self.root / "zcode/skills", w.default_skills_root("zcode"))
 
     def test_symlink_loop_and_backup_not_traversed(self):
         skills = self.root / "skills"

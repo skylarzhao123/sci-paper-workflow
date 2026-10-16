@@ -54,7 +54,7 @@ def install(target, source_root=None, mode="copy"):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--target", choices=("hermes", "codex"), required=True)
+    parser.add_argument("--target", choices=("hermes", "codex", "zcode"), required=True)
     parser.add_argument("--skills-dir", help="Explicit target skills root; e.g. a Hermes profile/research directory")
     parser.add_argument("--dependency-root", help="Existing local skill library containing all five dependencies")
     parser.add_argument("--mode", choices=("copy", "link"), default="copy")

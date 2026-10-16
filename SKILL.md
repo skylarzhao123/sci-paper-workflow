@@ -1,6 +1,6 @@
 ---
 name: sci-paper-workflow
-description: 按五步文件接力流程推进或续接 SCI 论文项目，自动选择 ARS-Codex、paper-skill、ref-verify、Anti-Defensive Writing 和 journal-recommender，套用分阶段提示词，保存证据、分节版本、主张审计及选刊池。用于“按五步流程写论文”“启动论文工具流”“继续论文项目”“根据已有材料自动调用各阶段 Skill”等请求。单纯阅读笔记、独立句子润色或仅解释论文知识时不启动全流程。
+description: 按五步文件接力流程推进或续接 SCI 论文项目，自动选择 ARS-Codex、paper-skill、ref-verify、Anti-Defensive Writing 和 journal-recommender，套用分阶段提示词，保存证据、分节版本、主张审计及选刊池。用于“按五步流程写论文”“启动论文工具流”“继续论文项目”“根据已有材料自动调用各阶段 Skill”等请求。适用于 Codex、Hermes、ZCode。单纯阅读笔记、独立句子润色或仅解释论文知识时不启动全流程。
 metadata:
   version: "1.1.0"
   hermes:
@@ -10,9 +10,9 @@ metadata:
 
 # SCI 论文五步工作流
 
-把研究材料变成可追溯的论文项目。由当前 Codex 或 Hermes 会话执行调度，脚本负责文件状态与变更检测；脚本本身不调用模型、不生成科学内容，也不提供后台定时执行。
+把研究材料变成可追溯的论文项目。由当前 Codex、Hermes 或 ZCode 会话执行调度，脚本负责文件状态与变更检测；脚本本身不调用模型、不生成科学内容，也不提供后台定时执行。
 
-首次使用先读 [运行平台适配](references/runtime.md)，按当前平台选择 Skill 加载工具、目录和命令。Hermes 使用原生 `skill_view`，Codex 读取实际 Skill 文件。
+首次使用先读 [运行平台适配](references/runtime.md)，按当前平台选择 Skill 加载工具、目录和命令。Hermes 使用原生 `skill_view`，ZCode 使用原生 Skill 调用，Codex 读取实际 Skill 文件。
 
 ## 启动与续接
 
@@ -39,7 +39,7 @@ Skill 目录遵循运行平台适配文件，优先使用平台加载工具返�
 
 “调用 Skill”指实际读取入口与所需资源并应用流程。只写出 Skill 名称不算调用。调度前简要告知阶段及 Skill；将实际读取的文件和已填入输入信息的提示词保存到运行记录。不要捏造不存在的 `invoke_skill` 工具。
 
-所需 Skill 缺失时，先报告具体缺项，查找平台提供的安装位置。仅在用户授权安装时使用平台安装器（Codex 的 `skill-installer` 或 Hermes 的 Skills Hub）；无授权时继续独立工作或使用明确告知用户的可用替代，不能声称缺失 Skill 已执行。来源见 [依赖来源](references/dependencies.md)。
+所需 Skill 缺失时，先报告具体缺项，查找平台提供的安装位置。仅在用户授权安装时使用平台安装器或按平台文档安装；无授权时继续独立工作或使用明确告知用户的可用替代，不能声称缺失 Skill 已执行。来源见 [依赖来源](references/dependencies.md)。
 
 ## 执行约束
 
@@ -61,7 +61,7 @@ python3 "SKILL_ROOT/scripts/workflow.py" inspect --project "/absolute/project"
 python3 "SKILL_ROOT/scripts/workflow.py" record --project "/absolute/project" --receipt "/absolute/receipt.json"
 ```
 
-Hermes 调用 inspect 时添加 `--runtime hermes`；多配置环境确保 `HERMES_HOME` 指向当前配置目录，或显式传 `--skills-root "/absolute/profile/skills"`。脚本识别直接目录和分类子目录中的依赖。
+Hermes 调用 inspect 时添加 `--runtime hermes`；多配置环境确保 `HERMES_HOME` 指向当前配置目录，或显式传 `--skills-root "/absolute/profile/skills"`。ZCode 添加 `--runtime zcode`。脚本识别直接目录和分类子目录中的依赖。
 
 `record` 校验输入、输出和已用资源存在且非空，并记录 SHA-256。它不验证科学结论；只有内容检查通过后才标记 `complete`。`inspect` 返回上游变更导致的 `stale`，表示需要检查受影响部分，不要求盲目重写全稿。
 

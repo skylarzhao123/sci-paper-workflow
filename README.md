@@ -1,6 +1,6 @@
 # SCI Paper Workflow
 
-供 **Hermes Agent 与 Codex** 使用的五步论文工作流：定问题 → 搭架子 → 分节写 → 核主张并润色 → 定期刊。
+供 **ZCode、Hermes Agent 与 Codex** 使用的五步论文工作流：定问题 → 搭架子 → 分节写 → 核主张并润色 → 定期刊。
 
 由当前智能体按阶段读取对应 Skill 和提示词，并用文件传递证据与结果。Python 脚本只管理本地进度和依赖变化，不自行调用模型或后台运行。
 
@@ -62,6 +62,23 @@ python3 scripts/install_local.py --target codex
 ```text
 使用 $sci-paper-workflow。我的材料在 /absolute/project，请从适合的阶段继续。
 ```
+
+## 安装到 ZCode
+
+ZCode 使用用户级目录 `~/.zcode/skills`。本机 Codex 已安装五个依赖时，运行：
+
+```bash
+python3 scripts/install_local.py --target zcode \
+  --dependency-root "$HOME/.codex/skills"
+```
+
+安装会复制本 Skill 和五个已有依赖；若目标目录已有同名 Skill，会停止并保留原件。没有 Codex 依赖时，先按[依赖来源](references/dependencies.md)获取各 Skill，或直接将各 Skill 安装至 ZCode 用户技能目录。随后在 ZCode 的 Settings → Skills 点击 Refresh，确认六个 Skill 已启用。调用示例：
+
+```text
+$sci-paper-workflow 论文材料在 /absolute/project，请判断当前阶段并继续。
+```
+
+ZCode 的原生调用与目录要求见[官方说明](https://zcode.z.ai/en/docs/skill/)；平台差异见 [runtime.md](references/runtime.md)。
 
 ## 进度与恢复
 

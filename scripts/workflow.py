@@ -183,9 +183,13 @@ def find_skill(skills_root, name):
 
 def default_skills_root(runtime="auto"):
     if runtime == "auto":
-        runtime = "hermes" if os.environ.get("HERMES_HOME") else "codex"
-    key, fallback = ("HERMES_HOME", ".hermes") if runtime == "hermes" else ("CODEX_HOME", ".codex")
-    return Path(os.environ.get(key) or str(Path.home() / fallback)).expanduser() / "skills"
+        runtime = "zcode" if os.environ.get("ZCODE_DATA_BASE_DIR") else ("hermes" if os.environ.get("HERMES_HOME") else "codex")
+    if runtime == "zcode":
+        base = os.environ.get("ZCODE_DATA_BASE_DIR") or str(Path.home() / ".zcode")
+    else:
+        key, fallback = ("HERMES_HOME", ".hermes") if runtime == "hermes" else ("CODEX_HOME", ".codex")
+        base = os.environ.get(key) or str(Path.home() / fallback)
+    return Path(base).expanduser() / "skills"
 
 
 def inspect(root, skills_root):
@@ -280,7 +284,7 @@ def main():
     parser.add_argument("command", choices=("init", "inspect", "record"))
     parser.add_argument("--project", required=True)
     parser.add_argument("--receipt")
-    parser.add_argument("--runtime", choices=("auto", "codex", "hermes"), default="auto")
+    parser.add_argument("--runtime", choices=("auto", "codex", "hermes", "zcode"), default="auto")
     parser.add_argument("--skills-root", help="Explicit skills directory; overrides --runtime")
     args = parser.parse_args()
     root = Path(args.project).expanduser().resolve()

@@ -1,4 +1,15 @@
-# Codex 与 Hermes 适配
+# Codex、Hermes 与 ZCode 适配
+
+## ZCode
+
+1. 用户级技能位于 `~/.zcode/skills/<name>/SKILL.md`；如配置了 `ZCODE_DATA_BASE_DIR`，使用其指定的目录。当前会话可用 `$sci-paper-workflow` 显式调用；其他阶段 Skill 按名称加载，不能只写出名字就宣称执行。
+2. 先读取本 Skill 的 `references/runtime.md` 和 `references/contracts.md`，到当前阶段时只读对应提示词。ZCode 的技能工具支持 Skill 名称；相对资源必须从该 Skill 所在目录读取。实际加载路径以 ZCode 列出的技能为准。
+3. 需要的五个依赖 Skill 必须在 ZCode 可发现的目录中并处于启用状态。`~/.zcode/skills` 比通用导入位置优先；同名副本可能被高优先级副本遮蔽。不要以 Codex 或 Hermes 有安装作为 ZCode 已调用的证据。
+4. 把依赖中的“当前 Codex 会话”解释为当前 ZCode Agent 会话。ARS 的角色提示按根入口的 inline 映射在当前会话执行。未经用户要求，不派生子代理、不运行跨模型或 Codex 专属传输。
+5. 使用 ZCode 实际提供的文件、终端与网络工具执行步骤，不假设 Codex 或 Hermes 的工具名存在。检查材料和必要偏好时，直接在当前对话提问。
+6. 状态检查用 `python3 "SKILL_ROOT/scripts/workflow.py" inspect --project "/absolute/project" --runtime zcode`，脚本只识别文件，不代替 ZCode 原生 Skill 加载。若结果与 ZCode 技能列表不同，以 ZCode 实际加载结果为准并记录差异。
+
+安装后在 ZCode 的 Settings → Skills 点击 Refresh，确认六个 Skill 已启用。ZCode 官方说明：https://zcode.z.ai/en/docs/skill
 
 ## Hermes
 
